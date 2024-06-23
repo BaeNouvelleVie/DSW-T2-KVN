@@ -1,0 +1,36 @@
+CREATE TABLE Personaje
+(
+ IdPersonaje 		INT NOT NULL AUTO_INCREMENT,
+ NomPersonaje		VARCHAR(50) NOT NULL,
+ ApePersonaje 		VARCHAR(50) NOT NULL,
+ FechNacPersonaje	DATE NOT NULL,
+ PRIMARY KEY (IdPersonaje)
+);
+
+
+INSERT INTO Personaje (NomPersonaje, ApePersonaje, FechNacPersonaje) VALUES
+('Juan', 'Pérez', '1985-06-15'),
+('Ana', 'Gonzalez', '1990-07-20'),
+('Luis', 'Martinez', '1982-08-30'),
+('Sofía', 'Torres', '1995-09-25'),
+('Carlos', 'Ruiz', '1988-10-10');
+
+
+
+CREATE TABLE ProgramaTv
+(
+ IdProgramaTv 		INT NOT NULL AUTO_INCREMENT,
+ Titulo 			VARCHAR(250) NOT NULL,
+ Resumen 			VARCHAR(250) NOT NULL,
+ FechaInicio	DATE NOT NULL,
+ IdPersonaje 			INT NOT NULL,
+ PRIMARY KEY (IdProgramaTv),
+ FOREIGN KEY (IdPersonaje) REFERENCES Personaje(IdPersonaje)
+ );
+ 
+INSERT INTO ProgramaTv (Titulo, Resumen, FechaInicio, IdPersonaje) VALUES
+('Aventuras en la Ciudad', 'Un viaje por las calles más icónicas.', '2022-01-01', 1),
+('Historias Nocturnas', 'Relatos misteriosos después del anochecer.', '2022-02-15', 2),
+('Cocina Internacional', 'Recetas de todo el mundo.', '2022-03-20', 3),
+('Enigma', 'Solución de crímenes antiguos.', '2022-04-10', 4),
+('La vida en el parque', 'Documental sobre la naturaleza urbana.', '2022-05-05', 5);
