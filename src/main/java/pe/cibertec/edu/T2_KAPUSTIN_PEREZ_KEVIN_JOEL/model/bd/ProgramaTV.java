@@ -5,25 +5,19 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.AllArgsConstructor;
 
-
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name = "ProgramaTv")
+@Table(name = "programatv")
 public class ProgramaTV {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer idProgramaTv;
+    private Integer IdProgramaTv;
 
-    @Column(name = "Titulo", nullable = false, length = 250)
-    private String titulo;
-
-    @Column(name = "Resumen", nullable = false, length = 250)
-    private String resumen;
-
-    @Column(name = "FechaInicio", nullable = false)
-    private String fechaInicio;
+    private String Titulo;
+    private String Resumen;
+    private String FechaInicio;
 
     @ManyToOne
     @JoinColumn(name = "IdPersonaje", nullable = false)
