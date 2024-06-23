@@ -16,20 +16,24 @@ import java.util.List;
 @AllArgsConstructor
 @RestController
 @RequestMapping("/api/v1/files")
-
 public class FileController {
 
     private FileService fileService;
 
-    @PostMapping("")
-    public ResponseEntity<ArchivoDto> subirArchivos(
-            @RequestParam("files")List<MultipartFile> multipartFileList
-            ) throws Exception {
+    @PostMapping("/uploadMultiple")
+    public ResponseEntity<ArchivoDto> subirVariosArchivos(
+            @RequestParam("files") List<MultipartFile> multipartFileList) throws Exception {
+        if (multipartFileList.size() != 3) {
+            throw new Exception("Debe subir exactamente tres archivos.");
+        }
         fileService.guardarArchivos(multipartFileList);
-        return new ResponseEntity<>(ArchivoDto.builder().mensaje("Archivos subidos correctamente").build(),HttpStatus.OK);
+        return new ResponseEntity<>(ArchivoDto.builder().mensaje("Archivos subidos correctamente").build(), HttpStatus.OK);
     }
 
-
-
-
+    @PostMapping("/uploadSingle")
+    public ResponseEntity<ArchivoDto> subirUnArchivo(
+            @RequestParam("file") MultipartFile archivo) throws Exception {
+        fileService.guardarArchivo(archivo);
+        return new ResponseEntity<>(ArchivoDto.builder().mensaje("Archivo subido correctamente").build(), HttpStatus.OK);
+    }
 }

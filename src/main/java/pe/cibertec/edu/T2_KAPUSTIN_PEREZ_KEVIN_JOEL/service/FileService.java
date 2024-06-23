@@ -15,14 +15,30 @@ public class FileService implements IFileService {
 
     @Override
     public void guardarArchivo(MultipartFile archivo) throws Exception {
-        Files.copy(archivo.getInputStream(),
-                this.pathFolder.resolve(archivo.getOriginalFilename()));
+        if (!archivo.isEmpty()) {
+            validarExtension(archivo.getOriginalFilename());
+            validarTamano(archivo);
+            Files.copy(archivo.getInputStream(), this.pathFolder.resolve(archivo.getOriginalFilename()));
+        }
     }
 
     @Override
     public void guardarArchivos(List<MultipartFile> archivosList) throws Exception {
-        for(MultipartFile archivo : archivosList){
+        for (MultipartFile archivo : archivosList) {
             this.guardarArchivo(archivo);
+        }
+    }
+
+    private void validarExtension(String nombreArchivo) throws Exception {
+        String extension = nombreArchivo.substring(nombreArchivo.lastIndexOf(".") + 1).toLowerCase();
+        if (!List.of("pdf", "png", "docx").contains(extension)) {
+            throw new Exception("Formato de archivo no permitido.");
+        }
+    }
+
+    private void validarTamano(MultipartFile archivo) throws Exception {
+        if (archivo.getSize() > 25 * 1024 * 1024) {
+            throw new Exception("El archivo excede el tamaño máximo permitido.");
         }
     }
 }
